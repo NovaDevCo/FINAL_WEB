@@ -1,49 +1,52 @@
 # ----- IMPORTS -----
-from flask import Flask, render_template
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
+from flask import Flask, render_template, flash, redirect, url_for
+from flask_login import login_required, LoginManager, logout_user
 from models import db, User
-from routes import auth_bp  # import your blueprint
-
+from routes import views  # blueprint import
 
 # ----- APP INITIALIZATION -----
 app = Flask(__name__)
 
 # ----- CONFIGURATION -----
-app.config["SECRET_KEY"] = "Axtn3556et"  # change to something strong
+app.config["SECRET_KEY"] = "Axtn3556et"
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///site.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 # ----- INITIALIZE DATABASE -----
 db.init_app(app)
 
-# ----- FLASK-LOGIN SETUP -----
+# ----- FLASK-LOGIN -----
 login_manager = LoginManager()
 login_manager.init_app(app)
-
-# Where Flask-Login redirects if user not logged in
-login_manager.login_view = "auth.login_user_route"
+login_manager.login_view = "home"
 login_manager.login_message_category = "info"
-
 
 # ----- USER LOADER -----
 @login_manager.user_loader
 def load_user(user_id):
-    """Flask-Login user loader function"""
     return User.query.get(int(user_id))
 
+# ----- BLUEPRINT REGISTRATION -----
+app.register_blueprint(views)
 
-# ----- REGISTER BLUEPRINTS -----
-app.register_blueprint(auth_bp)
-
-
-# ----- BASIC ROUTES -----
+# ----- ROUTES -----
 @app.route("/")
 def home():
-    return render_template("home.html")  # load the home.html
+    return render_template("home.html")
 
-# ----- RUN THE APP -----
+@app.route("/login", methods=["GET"])
+def login_chooser():
+    return render_template("login_chooser.html")
+
+@app.route("/logout")
+@login_required
+def log_out():
+    logout_user()
+    flash("You have been slain!👾.", "success")
+    return redirect(url_for('home'), is_home=True)
+
+# ----- RUN -----
 if __name__ == "__main__":
     with app.app_context():
-        db.create_all()  # ensures DB tables exist
+        db.create_all()
     app.run(debug=True)

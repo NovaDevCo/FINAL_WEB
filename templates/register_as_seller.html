@@ -1,0 +1,95 @@
+{% extends "authbase.html" %}
+
+{% block title %}Register as Seller{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='registerSeller.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="wrapper">
+  <div class="form-container">
+
+    <div class="form-card">
+      <h2>Seller Registration</h2>
+
+      <!-- Flash messages -->
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="alert {{ category }}">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      <!-- Registration form -->
+      <form method="POST" action="{{ url_for('views.register_seller') }}">
+        {{ form.hidden_tag() }}
+
+        <div class="form-grid">
+          <!-- LEFT SIDE -->
+          <div class="form-column">
+            <div class="form-group">
+              {{ form.first_name.label(class="form-label") }}
+              {{ form.first_name(class="form-control", placeholder="First Name") }}
+            </div>
+
+            <div class="form-group">
+              {{ form.last_name.label(class="form-label") }}
+              {{ form.last_name(class="form-control", placeholder="Last Name") }}
+            </div>
+
+            <div class="form-group">
+              {{ form.address.label(class="form-label") }}
+              {{ form.address(class="form-control", placeholder="City / Province") }}
+            </div>
+
+            <div class="form-group">
+              {{ form.phone.label(class="form-label") }}
+              {{ form.phone(class="form-control", placeholder="+63 900 000 0000") }}
+            </div>
+          </div>
+
+          <!-- RIGHT SIDE -->
+          <div class="form-column">
+            <div class="form-group">
+              {{ form.shopname.label(class="form-label") }}
+              {{ form.shopname(class="form-control", placeholder="Shop Name") }}
+            </div>
+
+            <div class="form-group">
+              {{ form.email.label(class="form-label") }}
+              {{ form.email(class="form-control", placeholder="Email") }}
+            </div>
+
+            <div class="form-group">
+              {{ form.password.label(class="form-label") }}
+              {{ form.password(class="form-control", placeholder="Password") }}
+            </div>
+
+            <div class="form-group">
+              {{ form.confirm_password.label(class="form-label") }}
+              {{ form.confirm_password(class="form-control", placeholder="Confirm Password") }}
+              {% if form.confirm_password.errors %}
+                <small class="error-text">{{ form.confirm_password.errors[0] }}</small>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="form-actions">
+          <p class="login-text">
+            Already have a seller account?
+            <a href="{{ url_for('views.seller_login') }}">Login</a>
+          </p>
+          <a href="{{ url_for('home') }}" class="btn cancel-btn">Cancel</a>
+          <button type="submit" class="btn primary-btn">Register</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

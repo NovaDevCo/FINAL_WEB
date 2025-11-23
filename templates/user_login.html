@@ -1,0 +1,46 @@
+{% extends "authbase.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="wrapper">
+    <div class="login-box">
+
+        <div class="form-container">
+
+            <img src="{{ url_for('static', filename='images/email.png') }}" alt="Logo" class="logo-img">
+
+            <h2 class="login-title">Welcome Artist</h2>
+
+            <form method="POST" action="{{ url_for('views.login_user') }}">
+                {{ form.hidden_tag() }}
+
+                <div class="form-group">
+                    {{ form.email(class="form-control", placeholder="Email", id="email") }}
+                </div>
+
+                <div class="form-group password-group">
+                    {{ form.password(class="form-control", placeholder="Password", id="password") }}
+                </div>
+
+                <div class="form-options">
+                    <label class="remember">
+                        {{ form.remember_me() }} 
+                        <span>Remember Me</span>
+                    </label>
+                    <a href="#" class="forgot-link">Forgot password?</a>
+                </div>
+
+                {{ form.loginNormal(class="btn btn-user") }}
+
+            </form>
+
+            <p class="alt-link">
+                Don’t have an account? <a href="{{ url_for('views.register_user') }}">Signup</a>
+            </p>
+
+    </div>
+</div>
+{% endblock %}
