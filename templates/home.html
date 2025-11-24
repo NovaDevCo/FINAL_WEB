@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Likharyo</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}" />
     
 </head>
@@ -25,12 +25,12 @@
             {% if current_user.is_authenticated %}
 
                 {% if current_user.seller_profile %}
-                    <a href="#" class="nav-link" style="color: #ffcc00;">My Shop</a>
+                    <a href="#" class="nav-link" style="color: #ffcc00;">View Shop</a>
                 {% else %}
                     <a href="#" class="nav-link">My Profile</a>
                 {% endif %}
 
-                <a href="{{ url_for('views.log_out') }}" class="nav-link">Log Out</a>
+                <a href="{{ url_for('log_out') }}" class="nav-link">Log Out</a>
 
             {% else %}
 
@@ -46,7 +46,7 @@
                     <button class="dropbtn">Log In ▾</button>
                     <div class="dropdown-content">
                         <a href="{{ url_for('views.seller_login') }}">Seller</a>
-                        <a href="{{ url_for('views.login_user') }}">Regular</a>
+                        <a href="{{ url_for('views.loginUser') }}">Regular</a>
                     </div>
                 </div>
 
@@ -71,35 +71,29 @@
         <h2>Craft a beautiful creation</h2>
         <p>At Likharyo, talented crafters meet clients in search of inspired, high‑quality storytelling and content</p>
         
-        <a href="#below-content" class="scroll-down-btn">Explore More ↓</a>
+        <a href="#target-frame" class="scroll-down-btn">Explore More ↓</a>
     </section>
 
-    <div id="below-content" style="padding-top: 50px;">
-        <h3 style="text-align: center; margin-top: 20px;">Featured Artist & Craft</h3>
-        <div class="featured-gallery">
-    {% for item in featured_items %}
-        <div class="gallery-card">
-            <img src="{{ url_for('static', filename=item.image_path) }}" alt="{{ item.title }}" />
-            <p class="gallery-title">{{ item.title }}</p>
+<div id="below-content" class="below-content">
+
+        <div class="img-block">
+            <img class="inline-img" src="{{ url_for('static', filename='artisans/4. Maëlys Santos - Maëlys Fabric & Thread (Embroidery).jpg') }}" alt="image1" />
+            <img class="inline-img" src="{{ url_for('static', filename='products/7.5.jpg') }}" alt="image2" />
+            <img class="inline-img" src="{{ url_for('static', filename='artisans/11. Skye Garcia - Skye and Stitch (TextileUpcycling).jpg') }}" alt="image3" />
+            <img class="inline-img" src="{{ url_for('static', filename='products/19.3.jpg') }}" alt="image4" />
+            <img class="inline-img" src="{{ url_for('static', filename='artisans/7. Liam De La Cruz - Liam Letterpress Studio (Printing).jpg') }}" alt="image5" />
         </div>
-    {% endfor %}
+ 
 </div>
 
-    
-        
-        {% if current_user.is_authenticated %}
-            <p>Hello, {{ current_user.first_name }}! Welcome back.</p>
-        {% else %}
-            <p>Ready to start your project? Sign up or log in today.</p>
-        {% endif %}
-    </div>
-    
-    <p style="padding-top: 100vh;">Scroll down to see the iframe...</p>
-</div>
 
-<div class="lower-frame">
+<div  id="target-frame" class="lower-frame">
     <iframe src="" class="my-frame"></iframe>
 </div>
 
 </body>
+<footer>
+    <p>THis is footer</p>
+</footer>
+
 </html>

@@ -34,17 +34,13 @@ app.register_blueprint(views)
 def home():
     return render_template("home.html")
 
-@app.route("/login", methods=["GET"])
-def login_chooser():
-    return render_template("login_chooser.html")
-
 @app.route("/logout")
 @login_required
 def log_out():
     logout_user()
     flash("You have been slain!👾.", "success")
-    return redirect(url_for('home'), is_home=True)
-
+    return redirect(url_for('home'))
+    
 # ----- RUN -----
 if __name__ == "__main__":
     with app.app_context():
