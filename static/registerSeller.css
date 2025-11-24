@@ -1,0 +1,200 @@
+/* ===== Wrapper ===== */
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: black;
+    padding: 0;
+}
+
+/* ===== Card Container ===== */
+.form-container {
+    width: 100%;
+    max-width: 950px;
+    background-color: #1b1b1b;
+    border-radius: 8px;
+    border: solid 3px orange;
+    /* FIX: Ensure content sits inside the colored border */
+    overflow: hidden; 
+}
+
+.form-card {
+    /* FIX: Added dark background for text contrast, though container has one */
+    background-color: #1b1b1b; 
+    backdrop-filter: blur(4px);
+    padding: 40px 50px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Stronger shadow */
+    transition: all 0.3s ease;
+}
+
+.form-card:hover {
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.7);
+}
+
+.form-card h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 30px;
+    /* FIX: Changed from #222 (dark) to white */
+    color: #fff; 
+    font-weight: 700;
+}
+
+/* ===== Grid Layout ===== */
+.form-grid {
+    display: flex;
+    gap: 40px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.form-column {
+    flex: 1;
+    min-width: 300px;
+}
+
+/* ===== Form Elements ===== */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    /* FIX: Changed from #333 (dark) to light gray */
+    color: #f0f0f0; 
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #f6d09d;
+    border-radius: 6px;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    
+    /* FIX: Set text color to white and background to a dark shade */
+    background-color: #2a2a2a; 
+    color: #fff; 
+}
+
+.form-control:focus {
+    border-color: #d6862e;
+    box-shadow: 0 0 0 3px rgba(214, 134, 46, 0.4); /* Stronger glow for dark mode */
+}
+
+/* FIX: Placeholder Text color */
+.form-control::placeholder {
+    color: #888; 
+    opacity: 1; /* For cross-browser compatibility */
+}
+
+/* ===== Error Text ===== */
+.error-text {
+    color: #ff6b6b; /* Brighter red for visibility */
+    font-size: 0.9em;
+}
+
+/* ===== Buttons ===== */
+.form-actions {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+/* main dark button */
+.primary-btn {
+    background-color: #23211e;
+    color: #fff;
+}
+
+.primary-btn:hover {
+    /* FIX: Changed hover to the brighter orange/brown for contrast */
+    background-color: #d6862e; 
+}
+
+/* grey cancel button */
+.cancel-btn {
+    background-color: #555; /* Darkened gray for contrast */
+    color: #fff; /* White text on dark button */
+    margin-right: 10px;
+}
+
+.cancel-btn:hover {
+    background-color: #777;
+}
+
+/* ===== Login Text ===== */
+.login-text {
+    margin-bottom: 10px;
+    /* FIX: Changed from #555 (dark) to light gray */
+    color: #ccc; 
+}
+
+.login-text a {
+    /* FIX: Changed from #222 (dark) to an orange color for visibility */
+    color: #d6862e; 
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.login-text a:hover {
+    text-decoration: underline;
+}
+
+/* ===== Alerts ===== */
+.alert {
+    padding: 10px 15px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    font-size: 0.95em;
+}
+
+.alert.success {
+    /* Adjusted for dark mode readability */
+    background-color: #155724; 
+    color: #d4edda;
+}
+
+.alert.error {
+    /* Adjusted for dark mode readability */
+    background-color: #721c24; 
+    color: #f8d7da;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+    .form-card {
+        padding: 30px 25px;
+    }
+
+    .form-grid {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .form-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .cancel-btn {
+        margin: 0;
+    }
+}

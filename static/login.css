@@ -1,0 +1,194 @@
+/* -------------------------------------------------------------
+    COLORS & FONTS (Variables for easy customization)
+------------------------------------------------------------- */
+:root {
+    --color-dark-bg: #121212; /* Deep background */
+    --color-card-bg: #1e1e1e; /* Form background */
+    --color-primary-text: #f0f0f0;
+    --color-muted-text: #a0a0a0;
+    --color-accent: #e59400; /* Gold/Burnt Orange accent */
+    --color-accent-hover: #b37300;
+    --font-stack: 'Arial', sans-serif;
+}
+
+/* -------------------------------------------------------------
+    1. GLOBAL WRAPPER & LAYOUT
+------------------------------------------------------------- */
+.wrapper {
+    font-family: var(--font-stack);
+    background-color: var(--color-dark-bg);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.login-box {
+    display: flex;
+    width: 100%;
+    max-width: 950px; 
+    height: 600px; /* Consistent height for the split box */
+    border-radius: 12px;
+    overflow: hidden; 
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* -------------------------------------------------------------
+    3. RIGHT CONTAINER (Form)
+------------------------------------------------------------- */
+.form-container {
+    flex: 1;
+    background-color: var(--color-card-bg);
+    padding: 50px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    color: var(--color-primary-text);
+}
+
+/* Logo */
+.logo-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+    /* Professional touch: Subtle accent border */
+    border: 3px solid var(--color-accent);
+    box-shadow: 0 0 10px rgba(229, 148, 0, 0.4);
+}
+
+/* Title */
+.login-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--color-primary-text);
+    margin-bottom: 30px;
+}
+
+/* -------------------------------------------------------------
+    4. FORM ELEMENTS
+------------------------------------------------------------- */
+form {
+    width: 100%;
+    max-width: 320px; /* Constrain form width for clean look */
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #333;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: #2a2a2a; 
+    color: var(--color-primary-text);
+    transition: border-color 0.2s ease;
+}
+
+.form-control::placeholder {
+    color: var(--color-muted-text);
+}
+
+.form-control:focus {
+    border-color: var(--color-accent);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(229, 148, 0, 0.3);
+}
+
+/* -------------------------------------------------------------
+    5. OPTIONS & LINKS
+------------------------------------------------------------- */
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+    margin-bottom: 25px;
+    color: var(--color-muted-text);
+}
+
+.remember {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    /* Target the text next to the checkbox */
+    user-select: none;
+}
+
+.remember input[type="checkbox"] {
+    margin-right: 8px;
+    accent-color: var(--color-accent); 
+    width: 16px;
+    height: 16px;
+}
+
+.forgot-link {
+    color: var(--color-muted-text);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.forgot-link:hover {
+    color: var(--color-accent);
+}
+
+/* -------------------------------------------------------------
+    6. BUTTON & ALTERNATE LINK
+------------------------------------------------------------- */
+.btn-user {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--color-accent);
+    color: var(--color-dark-bg); /* Dark text on bright button */
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1.05rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    text-transform: uppercase;
+    text-decoration: none; /* Ensure it looks like a button even if rendered as 'a' */
+}
+
+.btn-user:hover {
+    background-color: var(--color-accent-hover);
+}
+
+.alt-link {
+    font-size: 0.9rem;
+    margin-top: 30px;
+    color: var(--color-muted-text);
+}
+
+.alt-link a {
+    color: var(--color-accent);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.alt-link a:hover {
+    text-decoration: underline;
+}
+
+/* -------------------------------------------------------------
+    7. RESPONSIVENESS
+------------------------------------------------------------- */
+@media (max-width: 850px) {
+    .login-box {
+        /* On small screens, switch to a single column */
+        max-width: 450px;
+        height: auto;
+    }
+    .left-container {
+        /* Hide the image column */
+        display: none;
+    }
+    .form-container {
+        padding: 40px 30px;
+    }
+}

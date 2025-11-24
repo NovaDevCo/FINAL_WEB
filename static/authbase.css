@@ -1,0 +1,72 @@
+/* ---------- Global Reset & Background ---------- */
+html, body {
+  padding: 0;
+  margin: 0;
+  min-height: 100vh;
+  font-family: sans-serif;
+  color: #333;
+  background-color: #0000;
+}
+/*
+  background: linear-gradient(
+    to bottom right, 
+    #fff3e6 0%,   
+    #f0c08a 50%,  
+    #c77a2a 100%  
+  );
+} */
+
+/* ⚠️ Removed display:flex; justify-items; align-items; 
+   because it affects child container positioning */
+
+/* ---------- Flash Message Styling ---------- */
+.flash-container {
+  position: fixed;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  width: 90%;
+  max-width: 600px;
+  text-align: center;
+}
+
+.flash-message {
+  padding: 12px 20px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  font-weight: 500;
+  color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  animation: fadeInDown 0.5s ease;
+}
+
+/* ---------- Flash Types ---------- */
+.flash-message.success {
+  background-color: #28a745;
+}
+
+.flash-message.danger {
+  background-color: #282209;
+}
+
+.flash-message.info {
+  background-color: #17a2b8;
+}
+
+.flash-message.warning {
+  background-color: #ffc107;
+  color: #000;
+}
+
+/* ---------- Flash Animation ---------- */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
