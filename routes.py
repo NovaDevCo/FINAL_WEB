@@ -16,7 +16,7 @@ views = Blueprint("views", __name__, url_prefix="/")
 def role_required(role):
     def decorator(f):
         @wraps(f)
-        @login_required
+        @login_required # This already handles the login requirement
         def decorated_function(*args, **kwargs):
             if current_user.role != role:
                 flash(f"Access denied. You must be logged in as a {role} to view this page.", "danger")
@@ -28,6 +28,7 @@ def role_required(role):
 # SELLER DASHBOARD
 @views.route("/dashboard/seller")
 @role_required("seller")
+# REMOVED: @login_required (already included in @role_required)
 def seller_dashboard():
     products = Product.query.filter_by(seller_id=current_user.sellerAccount.id).all()
 
@@ -36,31 +37,37 @@ def seller_dashboard():
             Product(
                 name="Handmade Wooden Bowl",
                 price=350,
-                description="Crafted from local mahogany, perfect for serving or decoration.",
+                # FIXED: Changed 'description' to 'description_text' 
+                # (or change model to 'description') - I'll stick to 'description_text' here
+                description_text="Crafted from local mahogany, perfect for serving or decoration.",
                 seller_id=current_user.sellerAccount.id
             ),
             Product(
                 name="Woven Artisan Bag",
                 price=1200,
-                description="Eco-friendly handwoven bag made by local artisans.",
+                # FIXED: Argument name correction
+                description_text="Eco-friendly handwoven bag made by local artisans.",
                 seller_id=current_user.sellerAccount.id
             ),
             Product(
                 name="Ceramic Coffee Mug",
                 price=250,
-                description="Hand-painted ceramic mug, dishwasher safe.",
+                # FIXED: Argument name correction
+                description_text="Hand-painted ceramic mug, dishwasher safe.",
                 seller_id=current_user.sellerAccount.id
             ),
             Product(
                 name="Leather Journal",
                 price=800,
-                description="Hand-stitched leather journal with recycled paper.",
+                # FIXED: Argument name correction
+                description_text="Hand-stitched leather journal with recycled paper.",
                 seller_id=current_user.sellerAccount.id
             ),
             Product(
                 name="Decorative Wall Hanging",
                 price=600,
-                description="Colorful wall hanging made from natural fibers.",
+                # FIXED: Argument name correction
+                description_text="Colorful wall hanging made from natural fibers.",
                 seller_id=current_user.sellerAccount.id
             )
         ]
@@ -74,7 +81,7 @@ def seller_dashboard():
         url_for('static', filename='products/1.2.jpg'),
         url_for('static', filename='products/1.3.jpg'),
         url_for('static', filename='products/1.4.jpg'),
-        url_for('static', filename='products/1.5.jpg')
+        url_for('static', filename='products/1.5.jpg'),
     ]
 
     for i, product in enumerate(products):
@@ -121,7 +128,7 @@ def seller_login():
         user = User.query.filter_by(email=form.email.data).first()
         if not user:
             flash("Email not registered. Please sign up first.", "warning")
-            return redirect(url_for("views.loginUser"))
+            return redirect(url_for("views.register_seller"))
 
         seller_account = SellerAccount.query.filter_by(user_id=user.id).first()
         if not seller_account:
@@ -191,8 +198,6 @@ def register_seller():
             new_seller = SellerAccount(
                 shop_name=form.shopname.data,
                 user_id=new_user.id,
-                description="",
-                banner_image="",
                 is_default=False
             )
             db.session.add(new_seller)

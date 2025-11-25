@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 # ----- CONFIGURATION -----
 app.config["SECRET_KEY"] = "Axtn3556et"
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///site.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///likharyo.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 # ----- INITIALIZE DATABASE -----
