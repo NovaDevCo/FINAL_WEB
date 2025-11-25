@@ -57,3 +57,16 @@ class SellerAccount(db.Model):
             .where(User.id == cls.user_id)
             .scalar_subquery()
         )
+
+
+class Product(db.Model):
+    __tablename__ = "product"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    price = db.Column(db.Numeric(10, 2), nullable=False)
+    description = db.Column(db.String(256), default="")
+    image_url = db.Column(db.String(256), default="")
+
+    seller_id = db.Column(db.Integer, db.ForeignKey("SellerAccount.id"), nullable=False)
+    seller = db.relationship("SellerAccount", backref="products")

@@ -1,0 +1,30 @@
+{% extends "home.html" %}
+{% block title %}Seller Dashboard{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='seller_dashboard.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <h2>My Products</h2>
+    <div class="products-grid">
+        {% if has_products %}
+            {% for product in products %}
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="{{ product.image_url }}" alt="{{ product.name }}">
+                </div>
+                <div class="info">
+                    <h5>{{ product.name }}</h5>
+                    <p>{{ product.description }}</p>
+                    <strong>₱{{ product.price }}</strong>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="no-products">No products yet. Add your first product!</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

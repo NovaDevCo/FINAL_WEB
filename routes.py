@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from werkzeug.security import generate_password_hash
 from sqlalchemy.exc import IntegrityError
-from models import User, SellerAccount, db
+from models import User, SellerAccount, Product, db
 from flask_login import login_user, current_user, login_required
 from functools import wraps
 
@@ -29,12 +29,73 @@ def role_required(role):
 @views.route("/dashboard/seller")
 @role_required("seller")
 def seller_dashboard():
-    return render_template("#", user=current_user)
+    products = Product.query.filter_by(seller_id=current_user.sellerAccount.id).all()
+
+    if not products:  # Seed products if none exist
+        demo_products = [
+            Product(
+                name="Handmade Wooden Bowl",
+                price=350,
+                description="Crafted from local mahogany, perfect for serving or decoration.",
+                seller_id=current_user.sellerAccount.id
+            ),
+            Product(
+                name="Woven Artisan Bag",
+                price=1200,
+                description="Eco-friendly handwoven bag made by local artisans.",
+                seller_id=current_user.sellerAccount.id
+            ),
+            Product(
+                name="Ceramic Coffee Mug",
+                price=250,
+                description="Hand-painted ceramic mug, dishwasher safe.",
+                seller_id=current_user.sellerAccount.id
+            ),
+            Product(
+                name="Leather Journal",
+                price=800,
+                description="Hand-stitched leather journal with recycled paper.",
+                seller_id=current_user.sellerAccount.id
+            ),
+            Product(
+                name="Decorative Wall Hanging",
+                price=600,
+                description="Colorful wall hanging made from natural fibers.",
+                seller_id=current_user.sellerAccount.id
+            )
+        ]
+        db.session.add_all(demo_products)
+        db.session.commit()
+        products = demo_products
+
+    # Manual static image links
+    manual_images = [
+        url_for('static', filename='products/1.1.jpg'),
+        url_for('static', filename='products/1.2.jpg'),
+        url_for('static', filename='products/1.3.jpg'),
+        url_for('static', filename='products/1.4.jpg'),
+        url_for('static', filename='products/1.5.jpg')
+    ]
+
+    for i, product in enumerate(products):
+        if i < len(manual_images):
+            product.image_url = manual_images[i]
+
+    # Decide what to render based on products
+    has_products = len(products) > 0
+
+    return render_template(
+        "seller_dashboard.html",
+        user=current_user,
+        products=products,
+        has_products=has_products
+    )
+
 
 @views.route("/dashboard/user")
 @role_required("user")
 def user_dashboard():
-    return render_template("#", user=current_user)
+    return render_template("user_dashboard.html", user=current_user)
 
 # USER LOGIN
 @views.route("/login/user", methods=["GET", "POST"])
