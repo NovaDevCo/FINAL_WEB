@@ -6,19 +6,6 @@
 {% endblock %}
 
 {% block content %}
-<div class="content-frame">
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <div class="flash-messages">
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ category }}">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            </div>
-        {% endif %} 
-    {% endwith %}
-
     <section id="top" class="hero-section">
         <h2>Craft a beautiful creation</h2>
         <p>At Likharyo, talented crafters meet clients in search of inspired, high‑quality storytelling and content</p>
