@@ -58,7 +58,6 @@ class SellerAccount(db.Model):
             .scalar_subquery()
         )
 
-
 # -------------------------------
 # PRODUCT MODEL
 # -------------------------------

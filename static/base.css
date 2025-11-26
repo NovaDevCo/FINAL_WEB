@@ -36,12 +36,14 @@ body {
     align-items: center;
     justify-content: space-between;
 }
+
 .img-logo img {
     height: 50px;
 }
+
 .pamagat {
-    font-family: 'Pacifico', cursive;
-    font-size: 28px;
+    font-family: 'pacifico', cursive;
+    font-size: 40px;
     color: #d2a679;
     margin-right: 30%;
 }
@@ -62,6 +64,21 @@ body {
     color: #d2a679;
 }
 
+.img-cart {
+    height: 30px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.img-cart:hover {
+    transform: scale(1.1);
+}
+
+.img-home {
+    height: 30px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
 /* Dropdown */
 .dropdown {
     position: relative;
