@@ -68,9 +68,9 @@ class Product(db.Model):
     name = db.Column(db.String(100), nullable=False)
     price = db.Column(db.Numeric(10, 2), nullable=False)
     image_url = db.Column(db.String(256), default="")
-    # KEPT: The name 'description_text' as used in the original code, but 
-    # fixed the views file to use it for consistency.
     description_text = db.Column(db.Text, nullable=False) 
-    seller_id = db.Column(db.Integer, db.ForeignKey("seller_account.id"), nullable=False)  # ✅ matches __tablename__
+    seller_id = db.Column(db.Integer, db.ForeignKey("seller_account.id"), nullable=False) 
 
     seller = db.relationship("SellerAccount", back_populates="products")
+
+    

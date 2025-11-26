@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, DateField, BooleanField, TelField, DecimalField
 from wtforms.validators import DataRequired, EqualTo, Length, Regexp
+from flask_wtf.file import FileField, FileRequired, FileAllowed
 
 class BaseLoginInfo(FlaskForm):
     email = StringField("Email", 
@@ -64,4 +65,9 @@ class Product_Form(FlaskForm):
     )
     description = StringField("Descriptions", 
     validators=[DataRequired()]
+    )
+    image_url = FileField("Product Image: ", 
+    validators=[
+        FileAllowed(['jpg', 'png'], 'Images only!')
+        ]
     )

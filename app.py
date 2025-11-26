@@ -3,6 +3,7 @@ from flask import Flask, render_template, flash, redirect, url_for
 from flask_login import login_required, LoginManager, logout_user
 from models import db, User
 from routes import views  # blueprint import
+from datetime import timedelta
 
 # ----- APP INITIALIZATION -----
 app = Flask(__name__)
@@ -11,6 +12,10 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = "Axtn3556et"
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///likharyo.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+app.config["REMEMBER_COOKIE_DURATION"] = timedelta(days=30)  # CHANGE: user stays logged in for 30 days
+app.config["REMEMBER_COOKIE_REFRESH_EACH_REQUEST"] = True    # CHANGE: refresh cookie every visit
+app.config["SESSION_PERMANENT"] = False   # CHANGE: session not permanent
 
 # ----- INITIALIZE DATABASE -----
 db.init_app(app)
