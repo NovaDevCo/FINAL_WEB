@@ -35,15 +35,16 @@ def load_user(user_id):
 app.register_blueprint(views)
 
 # ----- ROUTES -----
-@app.route("/")
+
+@app.route("/home")
 def home():
     return render_template("home.html")
+
 
 @app.route("/logout")
 @login_required
 def log_out():
     logout_user()
-    flash("You have been slain!👾.", "success")
     return redirect(url_for('home'))
     
 # ----- RUN -----

@@ -11,6 +11,18 @@
     {% block extra_css %}{% endblock %}
 </head>
 <body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-container">
+          {% for category, message in messages %}
+            <div class="flash-message {{ category }}">
+              {{ message }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
 
 <div class="fixed-bg"></div>
 
@@ -22,8 +34,8 @@
         <h1 class="pamagat">Likharyo</h1>
 
         <nav class="nav-buttons">
-            <img src="{{ url_for('static', filename='images/home.png') }}" class="img-home" alt="Home" />
-            <a href="/about" class="nav-link">About</a>
+            <a href="{{ url_for('home') }}"><img src="{{ url_for('static', filename='images/home.png') }}" class="img-home" alt="Home"></a>
+            <a href="{{ url_for('views.about_page') }}" class="nav-link">About</a>
             <img src="{{ url_for('static', filename='images/white_cart.png') }}" class="img-cart" alt="Cart" />
 
 
@@ -58,9 +70,11 @@
 
 {% block content %}{% endblock %}
 
+{% if not is_exclude %}
 <footer>
     <p>&copy; 2025 Likharyo Artisan Platform</p>
 </footer>
+{% endif %}
 
 </body>
 </html>

@@ -1,10 +1,38 @@
 /* Hero Section */
+/* Hero Section */
 .hero-section {
+    position: relative;
     text-align: center;
     padding: 100px 20px;
     color: #fff;
     background: linear-gradient(135deg, #1a1a1a, #8b4513);
+    overflow: hidden; /* Required so the pseudo image stays inside */
 }
+
+/* Left-side background image */
+.hero-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40%; /* Adjust width of the image area */
+    height: 100%;
+    background-image: url("/static/images/beige.png"); /* Your image */
+    background-size: cover;
+    background-position: center;
+    opacity: 0.35; /* Adjust brightness */
+    pointer-events: none; /* Prevent blocking clicks */
+    z-index: 1;
+}
+
+/* Ensure text stays above the background image */
+.hero-section h2,
+.hero-section p,
+.hero-section a {
+    position: relative;
+    z-index: 2;
+}
+
 .hero-section h2 {
     font-size: 36px;
     margin-bottom: 15px;
@@ -17,6 +45,7 @@
     margin: 0 auto 30px;
     color: #f5f5f5;
 }
+
 
 /* Scroll Button */
 .scroll-down-btn {
@@ -43,24 +72,18 @@
 }
 
 /* Flash Messages */
-.flash-messages {
-    margin: 20px auto;
-    max-width: 600px;
+.flash-container {
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  width: 90%;
+  max-width: 600px;
+  text-align: center;
 }
-.alert {
-    padding: 12px;
-    margin-bottom: 10px;
-    border-radius: 4px;
-    font-weight: 500;
-}
-.alert-success {
-    background: #1a3d1a;
-    color: #d2a679;
-}
-.alert-error {
-    background: #3d1a1a;
-    color: #ff9999;
-}
+
+
 
 /* Below Content */
 .below-content {

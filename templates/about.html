@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}About Us{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='about.css') }}">
+{% endblock %} 
+
+{% block content %}
+<div class="about-container">
+    <div class="section">
+        <h1>About Us</h1>
+        <p class="emoji-title">🧶 LIKHARYO: LOCAL ARTISAN MARKETPLACE</p>
+        <p>
+            Likharyo is a digital marketplace powered by Flask that serves as a 
+            bridge, connecting shoppers who value sustainable, handcrafted goods 
+            with local Filipino craftsmen.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2>What We Offer</h2>
+        <p>
+            Our platform is designed to empower artisans and provide a trustworthy, enjoyable 
+            shopping experience for consumers. Key features include:
+        </p>
+
+        <ul>
+            <li>Product Catalogs</li>
+            <li>Personal Artisan Narratives (Shop Inspiring Stories)</li>
+            <li>Category and Location Searching Filters</li>
+            <li>Safe and Secure Payment Methods</li>
+            <li>Post-Purchase Reviews for artisan stores</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>🌎 Our Contribution to Sustainable Development Goals (SDGs)</h2>
+        <p>
+            Likharyo is committed to driving positive social and economic change in the Philippines. 
+            We specifically contribute to two critical UN Sustainable Development Goals:
+        </p>
+
+        <div class="highlight-box">
+            <h3>SDG 8: Decent Work and Economic Growth</h3>
+            <p>
+                By providing local artists with a digital storefront, Likharyo directly supports 
+                artisans by giving them access to a wider market. Each purchase guarantees just 
+                compensation and sustains a traditional craft, promoting full and productive 
+                employment for Filipino creators.
+            </p>
+        </div>
+
+        <div class="highlight-box">
+            <h3>SDG 12: Responsible Consumption and Production</h3>
+            <p>
+                We encourage consumers to prefer locally manufactured goods. Our site uses shop narratives 
+                and product tags to highlight sustainable practices, such as the use of recycled materials 
+                or conventional methods, promoting conscious and sustainable consumption patterns.
+            </p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🚀 The Pyronauts</h2>
+        <p>
+            We are the Pyronauts, a development group named to reflect our mission: like astronauts exploring 
+            the infinite universe of Python, we build robust and innovative digital solutions.
+        </p>
+
+        <p>
+            We created Likharyo with the core belief that technology can be a powerful tool for social good, 
+            economic empowerment, and cultural preservation.
+        </p>
+    </div>
+</div>
+{% endblock %}

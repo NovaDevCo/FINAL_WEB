@@ -25,6 +25,7 @@
 }
 
 .login-box {
+    margin-bottom: 60px;
     display: flex;
     width: 100%;
     max-width: 950px; 
@@ -137,8 +138,10 @@ form {
     color: var(--color-accent);
 }
 
+
+
 /* -------------------------------------------------------------
-    6. BUTTON & ALTERNATE LINK
+                 BUTTONS & ALTERNATIVE LINKS
 ------------------------------------------------------------- */
 .btn-user {
     width: 100%;
@@ -176,7 +179,7 @@ form {
 }
 
 /* -------------------------------------------------------------
-    7. RESPONSIVENESS
+                     RESPONSIVENESS
 ------------------------------------------------------------- */
 @media (max-width: 850px) {
     .login-box {

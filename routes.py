@@ -118,7 +118,7 @@ def loginUser():
             login_user(user, remember=form.remember_me.data)
             flash("Login successful!", "success")
             return redirect(url_for("home"))
-    return render_template("user_login.html", form=form)
+    return render_template("user_login.html", form=form, is_exclude=True)
 
 # SELLER LOGIN
 @views.route("/login/seller", methods=["GET", "POST"])
@@ -141,7 +141,7 @@ def seller_login():
             login_user(user, remember=form.remember_me.data)
             flash("Seller login successful!", "success")
             return redirect(url_for("views.seller_dashboard"))
-    return render_template("seller_login.html", form=form)
+    return render_template("seller_login.html", form=form, is_exclude=True)
 
 # USER REGISTRATION
 @views.route("/register/user", methods=["GET", "POST"])
@@ -170,7 +170,7 @@ def register_user():
         except IntegrityError:
             db.session.rollback()
             flash("Email already used.", "danger")
-    return render_template("register_as_user.html", form=form)
+    return render_template("register_as_user.html", form=form, is_exclude=True)
 
 # SELLER REGISTRATION
 @views.route("/register/seller", methods=["GET", "POST"])
@@ -207,4 +207,9 @@ def register_seller():
         except IntegrityError:
             db.session.rollback()
             flash("Email already used!", "danger")
-    return render_template("register_as_seller.html", form=form)
+    return render_template("register_as_seller.html", form=form, is_exclude=True)
+
+
+@views.route("/about")
+def about_page():
+    return render_template("about.html")
