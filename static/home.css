@@ -9,6 +9,7 @@
     overflow: hidden; /* Required so the pseudo image stays inside */
 }
 
+
 /* Left-side background image */
 .hero-section::before {
     content: "";

@@ -4,7 +4,7 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: black;
+    background-color: transparent;
     padding: 0;
 }
 
@@ -12,17 +12,19 @@
 .form-container {
     width: 100%;
     max-width: 950px;
-    background-color: #1b1b1b;
+    background-color: transparent;
     border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     margin-bottom: 80px;
-    border: solid 3px orange;
+    border: 0px solid #d2a679; /* Decorative border */
+    
     /* FIX: Ensure content sits inside the colored border */
     overflow: hidden; 
 }
 
 .form-card {
     /* FIX: Added dark background for text contrast, though container has one */
-    background-color: #1b1b1b; 
+    background-color: transparent; 
     backdrop-filter: blur(4px);
     padding: 40px 50px;
     border-radius: 12px;

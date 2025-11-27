@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, DateField, BooleanField, TelField, DecimalField
-from wtforms.validators import DataRequired, EqualTo, Length, Regexp
+from wtforms.validators import DataRequired, EqualTo, Length, Regexp, NumberRange
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 
 class BaseLoginInfo(FlaskForm):
@@ -57,17 +57,20 @@ class LoginSeller(BaseLoginInfo):
     loginSeller = SubmitField("Login")
 
 class Product_Form(FlaskForm):
-    product_name = StringField("Product name: ", 
+    # NOTE: Changing 'Descriptions' to 'Description' for clarity
+    product_name = StringField("Product Name: ",
     validators=[DataRequired()]
     )
-    product_price = DecimalField("Price: ", 
+    product_price = DecimalField("Price: ",
+    validators=[DataRequired(), NumberRange(min=0.01, message="Price must be greater than zero.")]
+    )
+    description = StringField("Description: ", # Matches form field name 'description'
     validators=[DataRequired()]
     )
-    description = StringField("Descriptions", 
-    validators=[DataRequired()]
-    )
-    image_url = FileField("Product Image: ", 
+    # The file field used for image upload
+    image_file = FileField("Product Image: ",
     validators=[
-        FileAllowed(['jpg', 'png'], 'Images only!')
+        FileAllowed(['jpg', 'png', 'jpeg', 'webp'], 'Images only!')
         ]
     )
+    submit = SubmitField("Save Product")

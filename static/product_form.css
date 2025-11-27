@@ -1,0 +1,72 @@
+/* --- PRODUCT FORM SPECIFIC STYLES --- */
+
+/* Form Container (Used to house the form elements) */
+.form-container {
+    /* Max-width and margin center it, assuming it is rendered inside the dashboard-container */
+    max-width: 600px;
+    margin: 40px auto; 
+    padding: 30px;
+    background: #1a1a1a;
+    border: 2px solid #d2a679; /* Matches product card border */
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(139, 69, 19, 0.3);
+    color: #f5f5f5;
+}
+.form-container h2 {
+    color: #d2a679;
+    margin-bottom: 25px;
+    text-align: center;
+}
+.form-group {
+    margin-bottom: 20px;
+}
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #ccc;
+}
+
+/* Text, Number, and File Inputs */
+.form-control, .form-control-file {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #333;
+    background: #222;
+    color: #f5f5f5;
+    border-radius: 5px;
+}
+
+/* Image Preview when Editing */
+.current-image-preview {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+    border: 1px solid #d2a679;
+    border-radius: 5px;
+}
+
+/* Submit/Cancel Buttons on Form */
+.submit-btn, .cancel-btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 600;
+    margin-right: 10px;
+}
+.submit-btn {
+    background-color: #27ae60;
+    color: white;
+}
+.submit-btn:hover {
+    background-color: #1e8449;
+}
+.cancel-btn {
+    background-color: #7f8c8d;
+    color: white;
+}
+.cancel-btn:hover {
+    background-color: #626b6c;
+}

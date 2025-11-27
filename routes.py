@@ -1,5 +1,8 @@
-from flask import Blueprint, render_template, redirect, url_for, flash, request
+from flask import Blueprint, render_template, redirect, url_for, flash, request, current_app
 from werkzeug.security import generate_password_hash
+from werkzeug.utils import secure_filename
+import os
+import secrets
 from sqlalchemy.exc import IntegrityError
 from models import User, SellerAccount, Product, db
 from flask_login import login_user, current_user, login_required
@@ -7,7 +10,8 @@ from functools import wraps
 
 from forms import (
     LoginNormalUser, LoginSeller,
-    RegisterNormalUser, RegisterSeller
+    RegisterNormalUser, RegisterSeller,
+    Product_Form
 )
 
 views = Blueprint("views", __name__, url_prefix="/")
@@ -25,78 +29,27 @@ def role_required(role):
         return decorated_function
     return decorator
 
-# SELLER DASHBOARD
-@views.route("/dashboard/seller")
-@role_required("seller")
-# REMOVED: @login_required (already included in @role_required)
-def seller_dashboard():
-    products = Product.query.filter_by(seller_id=current_user.sellerAccount.id).all()
 
-    if not products:  # Seed products if none exist
-        demo_products = [
-            Product(
-                name="Handmade Wooden Bowl",
-                price=350,
-                # FIXED: Changed 'description' to 'description_text' 
-                # (or change model to 'description') - I'll stick to 'description_text' here
-                description_text="Crafted from local mahogany, perfect for serving or decoration.",
-                seller_id=current_user.sellerAccount.id
-            ),
-            Product(
-                name="Woven Artisan Bag",
-                price=1200,
-                # FIXED: Argument name correction
-                description_text="Eco-friendly handwoven bag made by local artisans.",
-                seller_id=current_user.sellerAccount.id
-            ),
-            Product(
-                name="Ceramic Coffee Mug",
-                price=250,
-                # FIXED: Argument name correction
-                description_text="Hand-painted ceramic mug, dishwasher safe.",
-                seller_id=current_user.sellerAccount.id
-            ),
-            Product(
-                name="Leather Journal",
-                price=800,
-                # FIXED: Argument name correction
-                description_text="Hand-stitched leather journal with recycled paper.",
-                seller_id=current_user.sellerAccount.id
-            ),
-            Product(
-                name="Decorative Wall Hanging",
-                price=600,
-                # FIXED: Argument name correction
-                description_text="Colorful wall hanging made from natural fibers.",
-                seller_id=current_user.sellerAccount.id
-            )
-        ]
-        db.session.add_all(demo_products)
-        db.session.commit()
-        products = demo_products
+def save_picture(form_picture):
+    # 1. Generate a unique filename
+    random_hex = secrets.token_hex(8)
+    _, f_ext = os.path.splitext(form_picture.filename)
+    picture_fn = random_hex + secure_filename(f_ext) # Use secure_filename on extension
+    
+    # 2. Define the absolute path for saving
+    upload_path = os.path.join(current_app.root_path, 'static/product_images')
 
-    # Manual static image links
-    manual_images = [
-        url_for('static', filename='products/1.1.jpg'),
-        url_for('static', filename='products/1.2.jpg'),
-        url_for('static', filename='products/1.3.jpg'),
-        url_for('static', filename='products/1.4.jpg'),
-        url_for('static', filename='products/1.5.jpg'),
-    ]
+    # Ensure the directory exists
+    if not os.path.exists(upload_path):
+        os.makedirs(upload_path)
 
-    for i, product in enumerate(products):
-        if i < len(manual_images):
-            product.image_url = manual_images[i]
+    picture_path = os.path.join(upload_path, picture_fn)
+    
+    # 3. Save the file
+    form_picture.save(picture_path)
 
-    # Decide what to render based on products
-    has_products = len(products) > 0
-
-    return render_template(
-        "seller_dashboard.html",
-        user=current_user,
-        products=products,
-        has_products=has_products
-    )
+    # 4. Return the URL path relative to the static folder
+    return url_for('static', filename=f'product_images/{picture_fn}')
 
 
 @views.route("/dashboard/user")
@@ -213,3 +166,144 @@ def register_seller():
 @views.route("/about")
 def about_page():
     return render_template("about.html")
+
+
+
+# --- SELLER DASHBOARD (Reads, Seeds, and passes Shop Name) ---
+@views.route("/dashboard/seller")
+@role_required("seller")
+def seller_dashboard():
+    if not current_user.sellerAccount:
+        flash("Seller account not found.", "danger")
+        return redirect(url_for('home'))
+
+    # Fetch products associated with the current seller
+    products = Product.query.filter_by(seller_id=current_user.sellerAccount.id).all()
+    
+    # --- SEEDING LOGIC (KEPT INTACT) ---
+    if not products:  # Seed products if none exist
+        demo_products = [
+            Product(name="Handmade Wooden Bowl", price=350, description_text="Crafted from local mahogany.", seller_id=current_user.sellerAccount.id, image_url=url_for('static', filename='products/1.1.jpg')),
+            Product(name="Woven Artisan Bag", price=1200, description_text="Eco-friendly handwoven bag.", seller_id=current_user.sellerAccount.id, image_url=url_for('static', filename='products/1.2.jpg')),
+            Product(name="Ceramic Coffee Mug", price=250, description_text="Hand-painted ceramic mug.", seller_id=current_user.sellerAccount.id, image_url=url_for('static', filename='products/1.3.jpg')),
+            Product(name="Leather Journal", price=800, description_text="Hand-stitched leather journal.", seller_id=current_user.sellerAccount.id, image_url=url_for('static', filename='products/1.4.jpg')),
+            Product(name="Decorative Wall Hanging", price=600, description_text="Colorful wall hanging.", seller_id=current_user.sellerAccount.id, image_url=url_for('static', filename='products/1.5.jpg'))
+        ]
+        db.session.add_all(demo_products)
+        db.session.commit()
+        products = demo_products
+    # --- END SEEDING LOGIC ---
+
+    has_products = len(products) > 0
+    shop_name = current_user.sellerAccount.shop_name 
+
+    return render_template(
+        "seller_dashboard.html",
+        user=current_user,
+        products=products,
+        has_products=has_products,
+        shop_name=shop_name
+    )
+
+
+
+
+
+
+@views.route("/product/add", methods=["GET", "POST"])
+@role_required("seller")
+def add_product():
+    form = Product_Form()
+    if form.validate_on_submit():
+        # Handle file upload
+        image_url = url_for('static', filename='default/default_product.jpg') # Default fallback
+        if form.image_file.data:
+            try:
+                image_url = save_picture(form.image_file.data)
+            except Exception as e:
+                flash(f"Error saving image: {e}", "danger")
+                return redirect(url_for('views.add_product'))
+
+        # Create new product
+        new_product = Product(
+            name=form.product_name.data,
+            price=form.product_price.data,
+            description_text=form.description.data, # Use form.description.data
+            image_url=image_url,
+            seller_id=current_user.sellerAccount.id
+        )
+        db.session.add(new_product)
+        db.session.commit()
+        flash(f"Product '{new_product.name}' added successfully!", "success")
+        return redirect(url_for('views.seller_dashboard'))
+
+    # Load perfectly: uses the same form template
+    return render_template("product_form.html", 
+                           form=form, 
+                           title="Add New Product",
+                           action_url=url_for('views.add_product'),
+                           is_edit=False)
+
+
+# --- NEW: EDIT PRODUCT ---
+@views.route("/product/edit/<int:product_id>", methods=["GET", "POST"])
+@role_required("seller")
+def edit_product(product_id):
+    # Fetch the product, ensuring it belongs to the current seller
+    product = Product.query.filter_by(id=product_id, seller_id=current_user.sellerAccount.id).first_or_404()
+    form = Product_Form()
+    
+    # Remove the DataRequired validator from image_file when editing
+    # so the user doesn't have to re-upload it every time.
+    form.image_file.validators = [v for v in form.image_file.validators if v.__class__.__name__ != 'DataRequired']
+
+    if form.validate_on_submit():
+        # Check if a new image was uploaded
+        if form.image_file.data:
+            try:
+                image_url = save_picture(form.image_file.data)
+                product.image_url = image_url # Update image URL
+            except Exception as e:
+                flash(f"Error saving image: {e}", "danger")
+                return redirect(url_for('views.edit_product', product_id=product.id))
+        
+        # Update other product fields
+        product.name = form.product_name.data
+        product.price = form.product_price.data
+        product.description_text = form.description.data # Use form.description.data
+        
+        db.session.commit()
+        flash(f"Product '{product.name}' updated successfully!", "success")
+        return redirect(url_for('views.seller_dashboard'))
+
+    elif request.method == 'GET':
+        # Pre-populate form fields on GET request
+        form.product_name.data = product.name
+        form.product_price.data = product.price
+        form.description.data = product.description_text
+        # Note: image_file field cannot be pre-populated
+        
+    # Pass current image URL for preview
+    current_image = product.image_url
+
+    return render_template("product_form.html", 
+                           form=form, 
+                           title=f"Edit Product: {product.name}",
+                           product=product,
+                           action_url=url_for('views.edit_product', product_id=product.id),
+                           is_edit=True,
+                           current_image=current_image)
+
+
+# --- NEW: DELETE PRODUCT (simple POST route) ---
+@views.route("/product/delete/<int:product_id>", methods=["POST"])
+@role_required("seller")
+def delete_product(product_id):
+    product = Product.query.filter_by(id=product_id, seller_id=current_user.sellerAccount.id).first_or_404()
+    
+    # Optional: Delete the image file from the server here if it exists
+    
+    db.session.delete(product)
+    db.session.commit()
+    flash(f"Product '{product.name}' deleted successfully.", "success")
+    return redirect(url_for('views.seller_dashboard'))

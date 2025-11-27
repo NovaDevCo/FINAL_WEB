@@ -7,7 +7,14 @@
 
 {% block content %}
 <div class="dashboard-container">
-    <h2>Zian Clay Studio</h2>
+    <h2>{{ shop_name }} Dashboard</h2> 
+    
+    <div class="dashboard-header">
+        <a href="{{ url_for('views.add_product') }}" class="btn btn-primary add-product-btn">
+            + Add New Product
+        </a>
+    </div>
+
     <div class="products-grid">
         {% if has_products %}
             {% for product in products %}
@@ -17,13 +24,22 @@
                 </div>
                 <div class="info">
                     <h5>{{ product.name }}</h5>
-                    <p>{{ product.description }}</p>
+                    <p>{{ product.description_text }}</p>
                     <strong>₱{{ product.price }}</strong>
+                    <div class="actions">
+                        <a href="{{ url_for('views.edit_product', product_id=product.id) }}" class="btn btn-edit">Edit</a>
+                        
+                        <form method="POST" action="{{ url_for('views.delete_product', product_id=product.id) }}" style="display:inline;">
+                            <button type="submit" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete {{ product.name }}?');">
+                                Delete
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
             {% endfor %}
         {% else %}
-            <p class="no-products">No products yet. Add your first product!</p>
+            <p class="no-products">No products yet. Click "Add New Product" to get started!</p>
         {% endif %}
     </div>
 </div>

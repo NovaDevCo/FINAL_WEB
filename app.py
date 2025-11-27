@@ -12,7 +12,7 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = "Axtn3556et"
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///likharyo.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-
+app.config['UPLOAD_FOLDER'] = 'static/product_images'
 app.config["REMEMBER_COOKIE_DURATION"] = timedelta(days=30)  # CHANGE: user stays logged in for 30 days
 app.config["REMEMBER_COOKIE_REFRESH_EACH_REQUEST"] = True    # CHANGE: refresh cookie every visit
 app.config["SESSION_PERMANENT"] = False   # CHANGE: session not permanent

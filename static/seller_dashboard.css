@@ -93,3 +93,37 @@
 .add-product-btn:hover {
     background-color: #1e8449;
 }
+
+/* --- NEW STYLES FOR PRODUCT ACTIONS (DASHBOARD) --- */
+.product-card .actions {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+.product-card .btn, .actions .btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.product-card .btn-edit {
+    background-color: #3498db;
+    color: white;
+}
+.product-card .btn-edit:hover {
+    background-color: #2980b9;
+}
+
+.product-card .btn-delete {
+    background-color: #e74c3c;
+    color: white;
+}
+.product-card .btn-delete:hover {
+    background-color: #c0392b;
+}
