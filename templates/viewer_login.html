@@ -8,45 +8,37 @@
 <div class="wrapper">
     <div class="login-box">
 
-        <!-- Right form container -->
         <div class="form-container">
 
-            <!-- Circular Logo -->
             <img src="{{ url_for('static', filename='images/beige.png') }}" alt="Logo" class="logo-img">
 
-            <!-- Login Title -->
-            <h2 class="login-title">Welcome Seller</h2>
+            <h2 class="login-title">Welcome Artist</h2>
 
-            <!-- Login Form -->
-            <form method="POST" action="{{ url_for('views.seller_login') }}">
+            <form method="POST" action="{{ url_for('views.login_viewer') }}">
                 {{ form.hidden_tag() }}
 
-                <!-- Email Field -->
                 <div class="form-group">
                     {{ form.email(class="form-control", placeholder="Email", id="email") }}
                 </div>
 
-                <!-- Password Field -->
                 <div class="form-group password-group">
                     {{ form.password(class="form-control", placeholder="Password", id="password") }}
                 </div>
 
-                <!-- Remember & Forgot -->
                 <div class="form-options">
                     <label class="remember">
-                        {{ form.remember_me() }} Remember Me
+                        {{ form.remember_me() }} 
+                        <span>Remember Me</span>
                     </label>
                     <a href="#" class="forgot-link">Forgot password?</a>
                 </div>
 
-                <!-- Submit Button -->
-                {{ form.loginSeller(class="btn btn-user") }}
+                {{ form.loginNormal(class="btn btn-user") }}
 
             </form>
 
-            <!-- Alternate Signup Link -->
             <p class="alt-link">
-                Don’t have an account? <a href="{{ url_for('views.register_seller') }}">Signup</a>
+                Don’t have an account? <a href="{{ url_for('views.register_viewer') }}">Signup</a>
             </p>
 
     </div>

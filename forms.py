@@ -22,8 +22,14 @@ class BaseRegisterInfo(BaseLoginInfo):
     )
 
 class RegisterInfo(FlaskForm):
-    first_name = StringField("First Name", validators=[DataRequired()])
-    last_name = StringField("Last Name", validators=[DataRequired()])
+    first_name = StringField("First Name", 
+    validators=[DataRequired()
+        ]
+    )
+    last_name = StringField("Last Name", 
+    validators=[DataRequired()
+        ]
+    )
     register = SubmitField("Register")
     address = StringField("Address", 
     validators=[
@@ -34,18 +40,22 @@ class RegisterInfo(FlaskForm):
     validators=[
             DataRequired(),
             Length(min=7, max=15),
-            Regexp(r"^\+?\d{7,15}$", message="Enter a valid phone number")
+            Regexp(r"^\+?\d{7,15}$", 
+            message="Enter a valid phone number")
         ]
     )
 
 class RegisterNormalUser(RegisterInfo, BaseRegisterInfo):
-    birthday = DateField("Birthday", format="%Y-%m-%d", 
+    birthday = DateField("Birthday", 
+    format="%Y-%m-%d", 
     validators=[DataRequired()]
     )
 
 class RegisterSeller(RegisterInfo, BaseRegisterInfo):
     shopname = StringField("Shop Name", 
-    validators=[DataRequired()]
+    validators=[
+        DataRequired()
+        ]
     )
 
 class LoginNormalUser(BaseLoginInfo):

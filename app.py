@@ -41,12 +41,28 @@ def home():
     return render_template("home.html")
 
 
-@app.route("/logout")
+@app.route("/logout/<user_type>")
 @login_required
-def log_out():
+def log_out(user_type):
+    # 1. Log the user out using Flask-Login
     logout_user()
-    return redirect(url_for('home'))
     
+    # 2. "Something pop()" functionality: Flash the success message
+    flash("👋 You have been successfully logged out. Come back soon!", "success")
+    
+    # 3. Dynamic Redirection
+    if user_type == 'admin':
+        # Redirects shop administrators to the admin login page
+        return redirect(url_for('views.login_admin'))
+    
+    # Default case (e.g., 'viewer', 'user', or unknown type)
+    return redirect(url_for('views.login_viewer'))
+
+@app.route("/about")
+def about_page():
+    return render_template("about.html")
+
+
 # ----- RUN -----
 if __name__ == "__main__":
     with app.app_context():

@@ -35,31 +35,31 @@
 
         <nav class="nav-buttons">
             <a href="{{ url_for('home') }}"><img src="{{ url_for('static', filename='images/home.png') }}" class="img-home" alt="Home"></a>
-            <a href="{{ url_for('views.about_page') }}" class="nav-link">About</a>
+            <a href="{{ url_for('about_page') }}" class="nav-link">About</a>
             <img src="{{ url_for('static', filename='images/white_cart.png') }}" class="img-cart" alt="Cart" />
 
 
             {% if current_user.is_authenticated %}
-                {% if current_user.sellerAccount %}
-                    <a href="{{ url_for('views.seller_dashboard') }}" class="nav-link" style="color: #ffcc00;">View Shop</a>
+                {% if current_user.shop_admin %}
+                    <a href="{{ url_for('views.admin_dashboard') }}" class="nav-link" style="color: #ffcc00;">View Shop</a>
                 {% else %}
-                    <a href="{{ url_for('views.user_dashboard') }}" class="nav-link">Profile</a>
+                    <a href="{{ url_for('views.viewer_dashboard') }}" class="nav-link">Profile</a>
                 {% endif %}
-                <a href="{{ url_for('log_out') }}" class="nav-link">Log Out</a>
+                <a href="{{ url_for('log_out', user_type='admin' if current_user.shop_admin else 'viewer') }}" class="nav-link">Log Out</a>
             {% else %}
                 <div class="dropdown">  
                     <button class="dropbtn">Sign Up ▾</button>
                     <div class="dropdown-content">
-                        <a href="{{ url_for('views.register_seller') }}">Seller</a>
-                        <a href="{{ url_for('views.register_user') }}">Regular</a>
+                        <a href="{{ url_for('views.register_admin') }}">Seller</a>
+                        <a href="{{ url_for('views.register_viewer') }}">Regular</a>
                     </div>
                 </div>
 
                 <div class="dropdown">
                     <button class="dropbtn">Log In ▾</button>
                     <div class="dropdown-content">
-                        <a href="{{ url_for('views.seller_login') }}">Seller</a>
-                        <a href="{{ url_for('views.loginUser') }}">Regular</a>
+                        <a href="{{ url_for('views.login_admin') }}">Seller</a>
+                        <a href="{{ url_for('views.login_viewer') }}">Regular</a>
                     </div>
                 </div>
             {% endif %}
